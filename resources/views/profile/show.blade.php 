@@ -1,0 +1,31 @@
+@extends('layouts.app')
+
+@section('title', 'Profil de ' . $user->name)
+
+@section('content')
+<div class="container">
+    <h1 class="text-2xl font-bold mb-6">Profil de {{ $user->name }}</h1>
+
+    <p><strong>Email :</strong> {{ $user->email }}</p>
+    <p><strong>Biographie :</strong> {{ $user->biography ?? 'Aucune biographie fournie.' }}</p>
+
+    <h2 class="text-xl font-semibold mt-6">Films visionnés</h2>
+    <ul>
+        @forelse($user->watchedFilms as $film)
+            <li>{{ $film->title }} ({{ $film->year }})</li>
+        @empty
+            <p>Aucun film visionné.</p>
+        @endforelse
+    </ul>
+
+    <h2 class="text-xl font-semibold mt-6">Critiques</h2>
+    @forelse($user->reviews as $review)
+        <div class="bg-gray-100 p-4 rounded mb-4">
+            <p><strong>{{ $review->film->title }}</strong> : {{ $review->rating }}/10</p>
+            <p>{{ $review->content }}</p>
+        </div>
+    @empty
+        <p>Aucune critique laissée.</p>
+    @endforelse
+</div>
+@endsection
